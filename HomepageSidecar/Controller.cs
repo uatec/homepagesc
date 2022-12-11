@@ -52,6 +52,8 @@ public class Controller
             var configOutput = serializer.Serialize(c);
             Console.WriteLine(configOutput);
             
+            File.WriteAllText("/app/config/services.yaml", configOutput);
+            
             await Task.Delay(10000, token);
         } while (!token.IsCancellationRequested);
     }
