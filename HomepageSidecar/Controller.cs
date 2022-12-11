@@ -21,7 +21,7 @@ public class Controller
             Dictionary<string, Dictionary<string, Service>> flatConfig = new Dictionary<string, Dictionary<string, Service>>();
             foreach ( var ingress in result1.Items)
             {
-                string groupName = ingress.Metadata.Annotations.ContainsKey("hajimari.io/appName") ?
+                string groupName = ingress.Metadata.Annotations.ContainsKey("hajimari.io/group") ?
                     ingress.Metadata.Annotations["neutrino.io/group"] : "Default";
                     
                 foreach ( var rule in ingress.Spec.Rules ) {
