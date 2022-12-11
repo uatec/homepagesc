@@ -22,7 +22,7 @@ public class Controller
             foreach ( var ingress in result1.Items)
             {
                 string groupName = ingress.Metadata.Annotations.ContainsKey("hajimari.io/group") ?
-                    ingress.Metadata.Annotations["neutrino.io/group"] : "Default";
+                    ingress.Metadata.Annotations["neuthajimari.io/group"] : "Default";
                     
                 foreach ( var rule in ingress.Spec.Rules ) {
                     if (rule.Http != null)
