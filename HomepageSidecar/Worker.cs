@@ -21,7 +21,7 @@ public class Worker : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        Kubernetes kubeClient = new(KubernetesClientConfiguration.BuildConfigFromConfigFile());
+        Kubernetes kubeClient = new(KubernetesClientConfiguration.InClusterConfig());
         var ingressController = new Controller(
             kubeClient);
 
