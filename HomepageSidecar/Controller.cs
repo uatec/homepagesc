@@ -33,7 +33,8 @@ public class Controller
                             var newValue = new Service($"https://{rule.Host}{path.Path}")
                                 {
                                     Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
-                                    Icon = Get(ingress, "hajimari.io/icon")
+                                    Icon = Get(ingress, "hajimari.io/icon"),
+                                    Ping = path.Backend.Service != null ? $"http://{path.Backend.Service.Name}:{path.Backend.Service.Port.Number}" : null
                                 };
                             string serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);
                             
