@@ -8,9 +8,9 @@ namespace HomepageSidecar;
 
 public class Controller : BackgroundService
 {
-    private readonly Kubernetes _client;
+    private readonly IKubernetes _client;
 
-    public Controller(Kubernetes client)
+    public Controller(IKubernetes client)
     {
         _client = client;
     }
