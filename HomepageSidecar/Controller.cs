@@ -34,7 +34,7 @@ public class Controller
                                 {
                                     Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
                                     Icon = Get(ingress, "hajimari.io/icon"),
-                                    Ping = path.Backend.Service != null ? $"http://{path.Backend.Service.Name}:{path.Backend.Service.Port.Number}" : null
+                                    Ping = path.Backend.Service != null ? $"http://{path.Backend.Service.Name}.{ingress.Metadata.NamespaceProperty}.svc.cluster.local:{path.Backend.Service.Port.Number ?? 80}" : null
                                 };
                             string serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);
                             
