@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
+        services.AddHostedService<Controller>();
         services.AddSingleton<IKubernetes>(new Kubernetes(KubernetesClientConfiguration.InClusterConfig()));
     })
     .Build()
