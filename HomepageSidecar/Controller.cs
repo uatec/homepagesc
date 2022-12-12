@@ -2,6 +2,7 @@
 using k8s.Models;
 using Microsoft.Extensions.Hosting;
 using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace HomepageSidecar;
 
@@ -50,6 +51,7 @@ public class Controller : BackgroundService
             
 
             var serializer = new SerializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
             var configOutput = serializer.Serialize(c);
             Console.WriteLine(configOutput);
