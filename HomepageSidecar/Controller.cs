@@ -1,10 +1,11 @@
 ﻿using k8s;
 using k8s.Models;
+using Microsoft.Extensions.Hosting;
 using YamlDotNet.Serialization;
 
 namespace HomepageSidecar;
 
-public class Controller  
+public class Controller : BackgroundService
 {
     private readonly Kubernetes _client;
 
@@ -13,7 +14,7 @@ public class Controller
         _client = client;
     }
 
-    public async Task StartAsync(CancellationToken token)
+    protected override async Task ExecuteAsync(CancellationToken token)
     {
         do
         {
