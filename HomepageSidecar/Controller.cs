@@ -1,6 +1,7 @@
 ﻿using k8s;
 using k8s.Models;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
@@ -9,10 +10,12 @@ namespace HomepageSidecar;
 public class Controller : BackgroundService
 {
     private readonly IKubernetes _client;
+    private readonly SidecarOptions _options;
 
-    public Controller(IKubernetes client)
+    public Controller(IKubernetes client, IOptions<SidecarOptions> options)
     {
         _client = client;
+        _options = options.Value;
     }
 
     protected override async Task ExecuteAsync(CancellationToken token)
@@ -55,8 +58,12 @@ public class Controller : BackgroundService
                 .Build();
             var configOutput = serializer.Serialize(c);
             Console.WriteLine(configOutput);
-            
-            File.WriteAllText("/app/config/services.yaml", configOutput);
+
+            if (!String.IsNullOrEmpty(_options.OutputLocation))
+            {
+                Console.WriteLine("Outputting to: " + _options.OutputLocation);
+                File.WriteAllText(_options.OutputLocation, configOutput);
+            }
             
             await Task.Delay(10000, token);
         } while (!token.IsCancellationRequested);
