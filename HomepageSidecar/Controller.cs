@@ -44,7 +44,8 @@ public class Controller : BackgroundService
                                 {
                                     Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
                                     Icon = Get(ingress, "hajimari.io/icon"),
-                                    Ping = Get(ingress, "hajimari.io/healthCheck") 
+                                    Ping = Get(ingress, "hajimari.io/healthCheck"), 
+                                    Target = _options.DefaultTarget.ToString()
                                 };
                             string serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);
                             

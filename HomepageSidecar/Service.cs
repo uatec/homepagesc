@@ -13,4 +13,5 @@ public class Service
     public string? Ping { get; set; }
     public string? Container { get; set; }
     public Widget? Widget { get; set; }
+    public string Target { get; set; }
 }
