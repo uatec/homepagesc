@@ -44,13 +44,13 @@ public class Controller : BackgroundService
                             Widget? widget = null;
                             if (!string.IsNullOrEmpty(widgetType))
                             {
-                                string apiKey = null;
+                                string? apiKey = null;
                                 var apiKeySecretName = Get(ingress, "hajimari.io/widget_secret");
                                 if (!string.IsNullOrEmpty(apiKeySecretName))
                                 {
                                     var secretParts = apiKeySecretName.Split('/');
                                     // TODO: improved formatting
-                                    var secret = _client.ReadNamespacedSecret(secretParts[1], secretParts[0]);
+                                    var secret = await _client.ReadNamespacedSecretAsync(secretParts[1], secretParts[0], cancellationToken: token);
                                     apiKey = Encoding.Default.GetString(secret.Data[secretParts[2]]);
                                 }
 
@@ -58,8 +58,8 @@ public class Controller : BackgroundService
 
                                 if (port == null)
                                 {
-                                    var service = _client.ReadNamespacedService(path.Backend.Service.Name,
-                                        ingress.Metadata.NamespaceProperty);
+                                    var service = await _client.ReadNamespacedServiceAsync(path.Backend.Service.Name,
+                                        ingress.Metadata.NamespaceProperty, cancellationToken: token);
                                     port = service.Spec.Ports.Single(p => p.Name == path.Backend.Service.Port.Name)
                                         .Port;
                                 }
@@ -98,7 +98,7 @@ public class Controller : BackgroundService
             if (!string.IsNullOrEmpty(_options.OutputLocation))
             {
                 Console.WriteLine("Outputting to: " + _options.OutputLocation);
-                File.WriteAllText(_options.OutputLocation, configOutput);
+                await File.WriteAllTextAsync(_options.OutputLocation, configOutput, token);
             }
 
             await Task.Delay(10000, token);
