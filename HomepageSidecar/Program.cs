@@ -12,17 +12,11 @@ Host.CreateDefaultBuilder(args)
         {
             var options = s.GetService<IOptions<SidecarOptions>>();
             if (options.Value.InCluster)
-            {
                 return new Kubernetes(KubernetesClientConfiguration.InClusterConfig());
-            } 
-            else
-            {
-                return new Kubernetes(KubernetesClientConfiguration.BuildConfigFromConfigFile());
-            }
+            return new Kubernetes(KubernetesClientConfiguration.BuildConfigFromConfigFile());
         });
         services.Configure<SidecarOptions>(
             hostContext.Configuration);
-
     })
     .Build()
     .Run();

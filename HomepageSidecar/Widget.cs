@@ -4,9 +4,9 @@ public class Widget
 {
     public Widget(string type, string url, string key)
     {
-        this.Type = type;
-        this.Url = url;
-        this.Key = key;
+        Type = type;
+        Url = url;
+        Key = key;
     }
 
     public string Type { get; set; }
