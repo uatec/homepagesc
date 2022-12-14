@@ -10,7 +10,7 @@ Host.CreateDefaultBuilder(args)
         services.AddHostedService<Controller>();
         services.AddSingleton<IKubernetes>(s =>
         {
-            var options = s.GetService<IOptions<SidecarOptions>>();
+            var options = s.GetService<IOptions<SidecarOptions>>()!;
             if (options.Value.InCluster)
                 return new Kubernetes(KubernetesClientConfiguration.InClusterConfig());
             return new Kubernetes(KubernetesClientConfiguration.BuildConfigFromConfigFile());

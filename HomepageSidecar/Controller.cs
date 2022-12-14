@@ -23,7 +23,7 @@ public class Controller : BackgroundService
     {
         do
         {
-            var result1 = await _client.ListIngressForAllNamespaces1Async(cancellationToken: token);
+            var result1 = await _client.NetworkingV1.ListIngressForAllNamespacesAsync(cancellationToken: token);
             var flatConfig = new Dictionary<string, Dictionary<string, Service>>();
             foreach (var ingress in result1.Items)
             {
@@ -50,7 +50,7 @@ public class Controller : BackgroundService
                                 {
                                     var secretParts = apiKeySecretName.Split('/');
                                     // TODO: improved formatting
-                                    var secret = await _client.ReadNamespacedSecretAsync(secretParts[1], secretParts[0], cancellationToken: token);
+                                    var secret = await _client.CoreV1.ReadNamespacedSecretAsync(secretParts[1], secretParts[0], cancellationToken: token);
                                     apiKey = Encoding.Default.GetString(secret.Data[secretParts[2]]);
                                 }
 
@@ -58,7 +58,7 @@ public class Controller : BackgroundService
 
                                 if (port == null)
                                 {
-                                    var service = await _client.ReadNamespacedServiceAsync(path.Backend.Service.Name,
+                                    var service = await _client.CoreV1.ReadNamespacedServiceAsync(path.Backend.Service.Name,
                                         ingress.Metadata.NamespaceProperty, cancellationToken: token);
                                     port = service.Spec.Ports.Single(p => p.Name == path.Backend.Service.Port.Name)
                                         .Port;
@@ -73,13 +73,13 @@ public class Controller : BackgroundService
 
                             var newValue = new Service(url)
                             {
-                                Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
+                                Description = Get(ingress, "hajimari.io/description"),
                                 Icon = Get(ingress, "hajimari.io/icon"),
                                 Ping = Get(ingress, "hajimari.io/healthCheck"),
                                 Target = target ?? _options.DefaultTarget.ToString(),
                                 Widget = widget
                             };
-                            var serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);
+                            var serviceName = Get(ingress, "hajimari.io/appName") ?? ingress.Metadata.Name;
 
                             var group = flatConfig.GetOrAdd(groupName, new Dictionary<string, Service>());
                             group[serviceName] = newValue;
@@ -108,10 +108,10 @@ public class Controller : BackgroundService
     }
 
 
-    private string Get(V1Ingress ingress, string attributeName, string otherwise = "")
+    private string? Get(V1Ingress ingress, string attributeName)
     {
         return ingress.Metadata.Annotations.ContainsKey(attributeName)
             ? ingress.Metadata.Annotations[attributeName]
-            : otherwise;
+            : null;
     }
 }
