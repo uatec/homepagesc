@@ -55,7 +55,17 @@ public class Controller : BackgroundService
                                     apiKey = System.Text.Encoding.Default.GetString(secret.Data[secretParts[2]]);
                                 }
 
-                                widget = new Widget(widgetType, url, apiKey);
+                                int? port = path.Backend.Service.Port.Number;
+
+                                if (port == null)
+                                {
+                                    var service = _client.ReadNamespacedService(path.Backend.Service.Name,
+                                        ingress.Metadata.NamespaceProperty);
+                                    port = service.Spec.Ports.Single(p => p.Name == path.Backend.Service.Port.Name)
+                                        .Port;
+                                }
+                                
+                                widget = new Widget(widgetType, $"http://{path.Backend.Service.Name}.{ingress.Metadata.NamespaceProperty}.svc.cluster.local:{port}", apiKey);
                             }
                             
                             var newValue = new Service(url)
