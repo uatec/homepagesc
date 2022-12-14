@@ -69,12 +69,14 @@ public class Controller : BackgroundService
                                     apiKey);
                             }
 
+                            var target = Get(ingress, "hajimari.io/target");
+
                             var newValue = new Service(url)
                             {
                                 Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
                                 Icon = Get(ingress, "hajimari.io/icon"),
                                 Ping = Get(ingress, "hajimari.io/healthCheck"),
-                                Target = _options.DefaultTarget.ToString(),
+                                Target = target ?? _options.DefaultTarget.ToString(),
                                 Widget = widget
                             };
                             var serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);

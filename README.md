@@ -13,8 +13,8 @@ A Kubernetes Sidecar to auto-generate `service.yaml` configuration from Kubernet
 - [ ] enable services
   - [x] from annotation
   - [ ] default from config
-- [ ] targets
-  - [ ] from annotations
+- [x] targets
+  - [x] from annotations
   - [x] default from config
 - [ ] widgets
   - [x] basic
