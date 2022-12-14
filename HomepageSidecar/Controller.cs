@@ -39,13 +39,32 @@ public class Controller : BackgroundService
                     {
                         foreach ( var path in rule.Http.Paths )
                         {
+                            var url = $"https://{rule.Host}{path.Path}";
+                            var widgetType = Get(ingress, "hajimari.io/widget_type");
+
+                            Widget? widget = null;
+                            if (!string.IsNullOrEmpty(widgetType))
+                            {
+                                string apiKey = null;
+                                var apiKeySecretName = Get(ingress, "hajimari.io/widget_secret");
+                                if (!string.IsNullOrEmpty(apiKeySecretName))
+                                {
+                                    string[] secretParts = apiKeySecretName.Split('/');
+                                    // TODO: improved formatting
+                                    var secret = _client.ReadNamespacedSecret(secretParts[1], secretParts[0]);
+                                    apiKey = System.Text.Encoding.Default.GetString(secret.Data[secretParts[2]]);
+                                }
+
+                                widget = new Widget(widgetType, url, apiKey);
+                            }
                             
-                            var newValue = new Service($"https://{rule.Host}{path.Path}")
+                            var newValue = new Service(url)
                                 {
                                     Description = Get(ingress, "hajimari.io/description", ingress.Metadata.Name),
                                     Icon = Get(ingress, "hajimari.io/icon"),
                                     Ping = Get(ingress, "hajimari.io/healthCheck"), 
-                                    Target = _options.DefaultTarget.ToString()
+                                    Target = _options.DefaultTarget.ToString(),
+                                    Widget = widget
                                 };
                             string serviceName = Get(ingress, "hajimari.io/appName", ingress.Metadata.Name);
                             
