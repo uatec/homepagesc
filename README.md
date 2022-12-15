@@ -10,9 +10,9 @@ A Kubernetes Sidecar to auto-generate `service.yaml` configuration from Kubernet
 - [x] icon
   - [x] test image config
 - [ ] homepage to support HTTP 204 as success
-- [ ] enable services
+- [x] enable services
   - [x] from annotation
-  - [ ] default from config
+  - [x] default from config
 - [x] targets
   - [x] from annotations
   - [x] default from config
