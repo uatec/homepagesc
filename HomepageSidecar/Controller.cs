@@ -27,7 +27,7 @@ public class Controller : BackgroundService
             var flatConfig = new Dictionary<string, Dictionary<string, Service>>();
             foreach (var ingress in result1.Items)
             {
-                if ("false".Equals(Get(ingress, "hajimari.io/enable"),
+                if ("false".Equals(Get(ingress, "hajimari.io/enable") ?? _options.IncludeByDefault.ToString(),
                         StringComparison.InvariantCultureIgnoreCase)) continue;
 
                 var groupName = ingress.Metadata.Annotations.ContainsKey("hajimari.io/group")
