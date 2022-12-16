@@ -7,6 +7,7 @@ using Microsoft.Extensions.Options;
 Host.CreateDefaultBuilder(args)
     .ConfigureServices((hostContext, services) =>
     {
+        services.AddSingleton<ConfigBuilder>();
         services.AddHostedService<Controller>();
         services.AddSingleton<IKubernetes>(s =>
         {
