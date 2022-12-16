@@ -29,11 +29,11 @@ public class ConfigBuilder
         Dictionary<string, Dictionary<string, Service>> flatConfig = new();
         foreach (var ingress in ingressData.Items)
         {
-            if ("false".Equals(Get(ingress, "hajimari.io/enable") ?? _options.IncludeByDefault.ToString(),
+            if ("false".Equals(Get(ingress, AnnotationKey.Enable) ?? _options.IncludeByDefault.ToString(),
                     StringComparison.InvariantCultureIgnoreCase)) continue;
 
-            var groupName = ingress.Metadata.Annotations.ContainsKey("hajimari.io/group")
-                ? ingress.Metadata.Annotations["hajimari.io/group"]
+            var groupName = ingress.Metadata.Annotations.ContainsKey(AnnotationKey.Group)
+                ? ingress.Metadata.Annotations[AnnotationKey.Group]
                 : "Default";
 
             foreach (var rule in ingress.Spec.Rules)
@@ -47,13 +47,13 @@ public class ConfigBuilder
                                 ? "https"
                                 : "http";
                         var url = $"{scheme}://{rule.Host}{path.Path}";
-                        var widgetType = Get(ingress, "hajimari.io/widget_type");
+                        var widgetType = Get(ingress, AnnotationKey.WidgetType);
 
                         Widget? widget = null;
                         if (!string.IsNullOrEmpty(widgetType))
                         {
                             string? apiKey = null;
-                            var apiKeySecretName = Get(ingress, "hajimari.io/widget_secret");
+                            var apiKeySecretName = Get(ingress, AnnotationKey.WidgetSecret);
                             if (!string.IsNullOrEmpty(apiKeySecretName))
                             {
                                 var secretParts = apiKeySecretName.Split('/');
@@ -79,17 +79,17 @@ public class ConfigBuilder
                                 apiKey);
                         }
 
-                        var target = Get(ingress, "hajimari.io/target");
+                        var target = Get(ingress, AnnotationKey.Target);
 
                         var newValue = new Service(url)
                         {
-                            Description = Get(ingress, "hajimari.io/description"),
-                            Icon = Get(ingress, "hajimari.io/icon"),
-                            Ping = Get(ingress, "hajimari.io/healthCheck"),
+                            Description = Get(ingress, AnnotationKey.Description),
+                            Icon = Get(ingress, AnnotationKey.Icon),
+                            Ping = Get(ingress, AnnotationKey.Healthcheck),
                             Target = target ?? (_options.DefaultTarget != Target.Default  ? _options.DefaultTarget.ToString() : null),
                             Widget = widget
                         };
-                        var serviceName = Get(ingress, "hajimari.io/appName") ?? ingress.Metadata.Name;
+                        var serviceName = Get(ingress, AnnotationKey.AppName) ?? ingress.Metadata.Name;
 
                         if (pathNumber > 0 )
                         {

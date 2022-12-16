@@ -63,7 +63,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions()));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/group"] = "Some Other Group";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Group] = "Some Other Group";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Some Other Group"]["my-ingress"].Href.Should()
                 .Be("http://my-host.com/my-path", "Should construct the the full path");
@@ -75,7 +75,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions()));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/appName"] = "Some Different Name";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.AppName] = "Some Different Name";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["Some Different Name"].Href.Should()
                 .Be("http://my-host.com/my-path", "Should construct the the full path");
@@ -87,7 +87,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions()));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/icon"] = "http://awesomeicons.local/some-icon.png";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Icon] = "http://awesomeicons.local/some-icon.png";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["my-ingress"].Icon.Should()
                 .Be("http://awesomeicons.local/some-icon.png", "Should populate icon from annotation");
@@ -99,7 +99,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions()));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/description"] = "An awesome and interesting description";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Description] = "An awesome and interesting description";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["my-ingress"].Description.Should()
                 .Be("An awesome and interesting description", "Should populate icon from annotation");
@@ -111,7 +111,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions()));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/healthCheck"] = "http://service.namespace.svc.cluster.local";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Healthcheck] = "http://service.namespace.svc.cluster.local";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["my-ingress"].Ping.Should()
                 .Be("http://service.namespace.svc.cluster.local", "Should populate ping from healthcheck annotation");
@@ -208,7 +208,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions { DefaultTarget = Target._top}));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/target"] = "_self";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Target] = "_self";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["my-ingress"].Target.Should().Be("_self");
         }
@@ -219,7 +219,7 @@ namespace HomepageSidecar.Tests.Service
             var kubeClient = new Mock<IKubernetes>(MockBehavior.Default);
             var configBuilder =
                 new ConfigBuilder(kubeClient.Object, new OptionsWrapper<SidecarOptions>(new SidecarOptions{IncludeByDefault =  false}));
-            ingressData.Items.Single().Metadata.Annotations["hajimari.io/enable"] = "true";
+            ingressData.Items.Single().Metadata.Annotations[AnnotationKey.Enable] = "true";
             var config = await configBuilder.Build(ingressData, CancellationToken.None);
             config["Default"]["my-ingress"].Href.Should().NotBeEmpty();
         }
