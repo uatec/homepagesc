@@ -21,3 +21,5 @@ A Kubernetes Sidecar to auto-generate `service.yaml` configuration from Kubernet
   - [x] secrets
     - [x] key
     - [ ] multi field
+- [ ] https ingresses
+- [ ] move to own namespaced attributes

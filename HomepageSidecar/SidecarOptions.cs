@@ -10,6 +10,7 @@ public class SidecarOptions
 
 public enum Target
 {
+    Default,
     _blank,
     _self,
     _top
