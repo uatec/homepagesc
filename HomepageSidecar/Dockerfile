@@ -5,8 +5,8 @@ FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["HomepageSidecar/HomepageSidecar.csproj", "HomepageSidecar/"]
 RUN dotnet restore "HomepageSidecar/HomepageSidecar.csproj"
-RUN dotnet test
 COPY . .
+RUN dotnet test
 WORKDIR "/src/HomepageSidecar"
 RUN dotnet build "HomepageSidecar.csproj" -c Release -o /app/build
 
