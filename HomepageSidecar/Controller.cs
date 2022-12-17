@@ -34,12 +34,15 @@ public class Controller : BackgroundService
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
             var configOutput = serializer.Serialize(c);
-            Console.WriteLine(configOutput);
 
             if (!string.IsNullOrEmpty(_options.OutputLocation))
             {
-                Console.WriteLine("Outputting to: " + _options.OutputLocation);
+                Console.WriteLine("Writing to: " + _options.OutputLocation);
                 await File.WriteAllTextAsync(_options.OutputLocation, configOutput, token);
+            }
+            else
+            {
+                Console.WriteLine(configOutput);
             }
 
             await Task.Delay(10000, token);
