@@ -1,9 +1,7 @@
 # example 2: on merge to master
 name: Bump version
 on:
-  pull_request:
-    types:
-      - closed
+  push:
     branches:
       - master
 jobs:
