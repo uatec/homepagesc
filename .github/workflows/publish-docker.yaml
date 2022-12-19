@@ -26,13 +26,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
         
-      - name: Tag
-        uses: K-Phoen/semver-release-action@master
-        with:
-          release_branch: main
-          release_strategy: none
+      - name: Bump version and push tag
+        uses: anothrNick/github-tag-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          WITH_V: true
 
       - name: Log in to the Container registry
         uses: docker/login-action@f054a8b539a109f9f41c372932f1ae047eff08c9
