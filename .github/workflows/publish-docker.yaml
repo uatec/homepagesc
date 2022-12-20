@@ -34,6 +34,9 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+          
+      - name: Update semver tags
+        uses: haya14busa/action-update-semver@v1
 
       - name: Extract metadata (tags, labels) for Docker
         id: meta
