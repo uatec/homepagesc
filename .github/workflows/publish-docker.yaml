@@ -9,8 +9,10 @@
 
 name: Create and publish a Docker image
 
-on: [push]
-
+on:
+  push:
+    tags:
+      - '*'
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
