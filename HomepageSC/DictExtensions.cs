@@ -1,4 +1,4 @@
-namespace HomepageSidecar;
+namespace HomepageSC;
 
 public static class DictExtensions
 {

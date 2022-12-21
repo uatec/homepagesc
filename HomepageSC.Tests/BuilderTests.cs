@@ -4,7 +4,7 @@ using k8s.Models;
 using Microsoft.Extensions.Options;
 using Moq;
 
-namespace HomepageSidecar.Tests.Service
+namespace HomepageSC.Tests.Service
 {
     public class BuilderTests
     {

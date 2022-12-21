@@ -1,4 +1,4 @@
-namespace HomepageSidecar;
+namespace HomepageSC;
 
 public class Service
 {

@@ -9,7 +9,7 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceFolder}/HomepageSidecar/bin/Debug/net6.0/HomepageSidecar.exe",
+            "program": "${workspaceFolder}/HomepageSC/bin/Debug/net6.0/HomepageSC.exe",
             "args": [],
             "cwd": "${workspaceFolder}",
             "console": "internalConsole",
