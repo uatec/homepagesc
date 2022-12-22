@@ -60,5 +60,5 @@ jobs:
           context: .
           file: ./HomepageSC/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
-          tags: ${{ steps.meta.outputs.tags, '\n', steps.bump.outputs.new_tag }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
