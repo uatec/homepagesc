@@ -12,7 +12,7 @@
         <PackageReference Include="KubernetesClient" Version="10.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.3" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
-        <PackageReference Include="YamlDotNet" Version="13.0.1" />
+        <PackageReference Include="YamlDotNet" Version="13.0.2" />
     </ItemGroup>
 
 </Project>
