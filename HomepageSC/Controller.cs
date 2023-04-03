@@ -37,7 +37,7 @@ public class Controller : BackgroundService
 
             if (!string.IsNullOrEmpty(_options.OutputLocation))
             {
-                Console.WriteLine("Writing to: " + _options.OutputLocation);
+                Console.WriteLine($"Writing {flatConfig.Values.SelectMany(c => c.Values).Count()} services to: {_options.OutputLocation}");
                 await File.WriteAllTextAsync(_options.OutputLocation, configOutput, token);
             }
             else
