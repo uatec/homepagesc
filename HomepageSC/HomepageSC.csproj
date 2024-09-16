@@ -9,10 +9,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="KubernetesClient" Version="12.1.1" />
+        <PackageReference Include="KubernetesClient" Version="15.0.1" />
         <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="7.0.11" />
         <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.1" />
-        <PackageReference Include="YamlDotNet" Version="13.7.1" />
+        <PackageReference Include="YamlDotNet" Version="16.0.0" />
     </ItemGroup>
 
 </Project>
